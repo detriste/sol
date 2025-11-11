@@ -44,7 +44,7 @@
             </ion-chip>
             <p><strong>Descrição:</strong> {{ chamado.descricao }}</p>
             <p><strong>Equipe ({{ chamado.funcionarios.length }}):</strong> 
-              {{ chamado.funcionarios.map(f => f.nome).join(', ') }}
+              {{ getNomesFuncionarios(chamado.funcionarios) }}
             </p>
             <p class="data"><strong>Aberto em:</strong> {{ chamado.dataAbertura | date:'dd/MM/yyyy HH:mm' }}</p>
           </div>

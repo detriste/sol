@@ -7,6 +7,7 @@ import { Maquina } from '../../models/maquina.model';
   selector: 'app-lista-maquinas',
   templateUrl: './lista-maquinas.page.html',
   styleUrls: ['./lista-maquinas.page.scss'],
+  standalone: false, 
 })
 export class ListaMaquinasPage implements OnInit {
   maquinas: Maquina[] = [];

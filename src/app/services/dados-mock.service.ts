@@ -3,40 +3,48 @@ import { Funcionario } from '../models/funcionario.model';
 import { Maquina } from '../models/maquina.model';
 import { Chamado } from '../models/chamado.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class DadosMockService {
   
-  // PREENCHA com os dados da sua tabela
   private funcionarios: Funcionario[] = [
-    // ELETROMECÂNICOS
-    { numero: 1, nome: 'NOME_DO_FUNCIONARIO_1', area: 'Eletromecânicos', funcao: 'FUNÇÃO', disponivel: true },
-    // ... adicione todos os funcionários aqui
+    // ELETROMECÂNICOS (4 funcionários)
+    { numero: 1, nome: 'João Silva Santos', area: 'Eletromecânicos', funcao: 'Técnico Eletromecânico', disponivel: true },
+    { numero: 2, nome: 'Pedro Henrique Costa', area: 'Eletromecânicos', funcao: 'Técnico Eletromecânico', disponivel: true },
+    { numero: 3, nome: 'Carlos Alberto Souza', area: 'Eletromecânicos', funcao: 'Técnico Eletromecânico', disponivel: true },
+    { numero: 4, nome: 'Roberto Oliveira Lima', area: 'Eletromecânicos', funcao: 'Técnico Eletromecânico Sr.', disponivel: true },
     
-    // MECÂNICO GERAL
-    { numero: 10, nome: 'NOME_DO_FUNCIONARIO_10', area: 'Mecânico Geral', funcao: 'FUNÇÃO', disponivel: true },
-    // ...
+    // MECÂNICO GERAL (3 funcionários)
+    { numero: 5, nome: 'Antonio Carlos Ferreira', area: 'Mecânico Geral', funcao: 'Mecânico Industrial', disponivel: true },
+    { numero: 6, nome: 'José Eduardo Martins', area: 'Mecânico Geral', funcao: 'Mecânico Industrial', disponivel: true },
+    { numero: 7, nome: 'Paulo Roberto Almeida', area: 'Mecânico Geral', funcao: 'Mecânico Industrial Sr.', disponivel: true },
     
-    // MECÂNICO EMBALAGEM
-    // ...
+    // MECÂNICO EMBALAGEM (2 funcionários)
+    { numero: 8, nome: 'Lucas Fernando Pereira', area: 'Mecânico Embalagem', funcao: 'Técnico de Embalagem', disponivel: true },
+    { numero: 9, nome: 'Rafael Augusto Gomes', area: 'Mecânico Embalagem', funcao: 'Técnico de Embalagem', disponivel: true },
     
-    // SERVIÇOS GERAIS
-    // ...
+    // SERVIÇOS GERAIS (1 funcionário)
+    { numero: 10, nome: 'Marcos Antonio Ribeiro', area: 'Serviços Gerais', funcao: 'Auxiliar de Manutenção', disponivel: true },
   ];
 
   private maquinas: Maquina[] = [
-    // PREENCHA com os dados da sua segunda tabela
-    { ordemServico: 'OS001', descricao: 'Descrição da máquina', tipo: 'Tipo' },
-    // ...
+    { ordemServico: 'OS001', descricao: 'Esteira Transportadora Principal', tipo: 'Transporte' },
+    { ordemServico: 'OS002', descricao: 'Prensa Hidráulica 150T', tipo: 'Prensagem' },
+    { ordemServico: 'OS003', descricao: 'Torno CNC Romi Centur 30D', tipo: 'Usinagem' },
+    { ordemServico: 'OS004', descricao: 'Empilhadeira Elétrica Yale', tipo: 'Movimentação' },
+    { ordemServico: 'OS005', descricao: 'Compressor Atlas Copco 30HP', tipo: 'Ar Comprimido' },
+    { ordemServico: 'OS006', descricao: 'Máquina de Solda MIG/MAG 500A', tipo: 'Soldagem' },
+    { ordemServico: 'OS007', descricao: 'Ponte Rolante 10 Toneladas', tipo: 'Movimentação' },
+    { ordemServico: 'OS008', descricao: 'Máquina Empacotadora Automática', tipo: 'Embalagem' },
+    { ordemServico: 'OS009', descricao: 'Fresadora Universal Ferramentaria', tipo: 'Usinagem' },
+    { ordemServico: 'OS010', descricao: 'Caldeira Industrial 500kg/h', tipo: 'Vapor' },
   ];
 
   private chamados: Chamado[] = [];
 
   constructor() { }
 
-  // Métodos de acesso aos dados
   getFuncionarios(): Funcionario[] {
     return [...this.funcionarios];
   }
@@ -62,10 +70,8 @@ export class DadosMockService {
     });
   }
 
-  // Calcula alocação por tipo
   getAlocacaoPorTipo(): { [key: string]: { atual: number, maximo: number, percentual: number } } {
     const totalFuncionarios = this.funcionarios.length;
-    const disponiveis = this.funcionarios.filter(f => f.disponivel).length;
     
     const preventiva = this.chamados
       .filter(c => c.tipo === 'PREVENTIVA/PREDITIVA')

@@ -5,10 +5,12 @@ import { DadosMockService } from '../../services/dados-mock.service';
 import { ValidacaoService } from '../../services/validacao.service';
 import { Maquina, Funcionario, Chamado } from '../../models';
 
+
 @Component({
   selector: 'app-abrir-chamado',
   templateUrl: './abrir-chamado.page.html',
   styleUrls: ['./abrir-chamado.page.scss'],
+  standalone: false, 
 })
 export class AbrirChamadoPage implements OnInit {
   maquina?: Maquina;
