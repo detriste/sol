@@ -1,0 +1,7 @@
+{
+  "name": "sol",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
