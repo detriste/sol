@@ -1,0 +1,22 @@
+.container {
+  padding: 16px;
+}
+
+.maquina-card {
+  margin-bottom: 16px;
+  
+  ion-card-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  ion-card-subtitle {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    margin-bottom: 4px;
+  }
+}
+
+.btn-abrir {
+  margin-top: 12px;
+}

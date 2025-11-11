@@ -1,13 +1,60 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>gestao-chamados</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Gestão de Chamados</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">gestao-chamados</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="container">
+    <!-- Dashboard de Alocação -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Dashboard de Alocação</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="alocacao-item" *ngFor="let tipo of ['PREVENTIVA/PREDITIVA', 'CORRETIVA', 'PRONTO ATENDIMENTO']">
+          <div class="alocacao-header">
+            <strong>{{ tipo }}</strong>
+            <span>{{ alocacao[tipo]?.atual || 0 }}/{{ alocacao[tipo]?.maximo || 0 }} ({{ alocacao[tipo]?.percentual || 0 }}%)</span>
+          </div>
+          <ion-progress-bar 
+            [value]="getPercentualAlocado(tipo) / 100"
+            [color]="getCorBarra(getPercentualAlocado(tipo))">
+          </ion-progress-bar>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Lista de Chamados -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Chamados Abertos ({{ chamados.length }})</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item *ngFor="let chamado of chamados" class="chamado-item">
+          <div class="chamado-info">
+            <h3>{{ chamado.maquina.ordemServico }} - {{ chamado.maquina.descricao }}</h3>
+            <ion-chip [color]="chamado.tipo === 'PREVENTIVA/PREDITIVA' ? 'primary' : chamado.tipo === 'CORRETIVA' ? 'warning' : 'success'">
+              <ion-label>{{ chamado.tipo }}</ion-label>
+            </ion-chip>
+            <p><strong>Descrição:</strong> {{ chamado.descricao }}</p>
+            <p><strong>Equipe ({{ chamado.funcionarios.length }}):</strong> 
+              {{ chamado.funcionarios.map(f => f.nome).join(', ') }}
+            </p>
+            <p class="data"><strong>Aberto em:</strong> {{ chamado.dataAbertura | date:'dd/MM/yyyy HH:mm' }}</p>
+          </div>
+        </ion-item>
+
+        <div *ngIf="chamados.length === 0" class="empty-state">
+          <ion-icon name="folder-open-outline" size="large"></ion-icon>
+          <p>Nenhum chamado aberto</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

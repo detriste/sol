@@ -1,13 +1,112 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>abrir-chamado</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="voltar()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Abrir Chamado</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">abrir-chamado</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="container">
+    <!-- Informações da Máquina -->
+    <ion-card *ngIf="maquina">
+      <ion-card-header>
+        <ion-card-subtitle>{{ maquina.ordemServico }}</ion-card-subtitle>
+        <ion-card-title>{{ maquina.descricao }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-chip color="medium">
+          <ion-label>{{ maquina.tipo }}</ion-label>
+        </ion-chip>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Tipo de Chamado -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Tipo de Chamado</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-radio-group [(ngModel)]="tipoSelecionado" (ionChange)="atualizarAlocacao()">
+          <ion-item>
+            <ion-radio slot="start" value="PREVENTIVA/PREDITIVA"></ion-radio>
+            <ion-label>
+              <h2>Preventiva/Preditiva</h2>
+              <p>Alocação: {{ alocacao['PREVENTIVA/PREDITIVA']?.atual || 0 }}/{{ alocacao['PREVENTIVA/PREDITIVA']?.maximo || 0 }} (50%)</p>
+            </ion-label>
+          </ion-item>
+          
+          <ion-item>
+            <ion-radio slot="start" value="CORRETIVA"></ion-radio>
+            <ion-label>
+              <h2>Corretiva</h2>
+              <p>Alocação: {{ alocacao['CORRETIVA']?.atual || 0 }}/{{ alocacao['CORRETIVA']?.maximo || 0 }} (15%)</p>
+            </ion-label>
+          </ion-item>
+          
+          <ion-item>
+            <ion-radio slot="start" value="PRONTO ATENDIMENTO"></ion-radio>
+            <ion-label>
+              <h2>Pronto Atendimento</h2>
+              <p>Alocação: {{ alocacao['PRONTO ATENDIMENTO']?.atual || 0 }}/{{ alocacao['PRONTO ATENDIMENTO']?.maximo || 0 }} (35%)</p>
+            </ion-label>
+          </ion-item>
+        </ion-radio-group>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Descrição -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Descrição</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-textarea 
+          [(ngModel)]="descricao"
+          placeholder="Descreva o problema ou serviço..."
+          rows="4">
+        </ion-textarea>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Funcionários -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Selecionar Funcionários</ion-card-title>
+        <ion-card-subtitle>{{ funcionariosSelecionados.length }} selecionado(s)</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item *ngFor="let func of funcionarios" [disabled]="!func.disponivel || !podeSelecionar(func.numero)">
+          <ion-checkbox 
+            slot="start" 
+            [checked]="isSelecionado(func.numero)"
+            [disabled]="!func.disponivel || !podeSelecionar(func.numero)"
+            (ionChange)="toggleFuncionario(func.numero)">
+          </ion-checkbox>
+          <ion-label>
+            <h2>{{ func.nome }}</h2>
+            <p>{{ func.area }} - {{ func.funcao }}</p>
+          </ion-label>
+          <ion-chip slot="end" [color]="func.disponivel ? 'success' : 'danger'">
+            <ion-label>{{ func.disponivel ? 'Disponível' : 'Ocupado' }}</ion-label>
+          </ion-chip>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botões -->
+    <div class="buttons">
+      <ion-button expand="block" color="primary" (click)="confirmarChamado()">
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Confirmar Chamado
+      </ion-button>
+      
+      <ion-button expand="block" color="light" (click)="voltar()">
+        Cancelar
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

@@ -1,0 +1,15 @@
+.container {
+  padding: 16px;
+}
+
+.buttons {
+  margin-top: 20px;
+  
+  ion-button {
+    margin-bottom: 10px;
+  }
+}
+
+ion-item[disabled] {
+  opacity: 0.5;
+}

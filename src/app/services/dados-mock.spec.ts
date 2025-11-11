@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { DadosMockService } from './dados-mock.service';
 
-import { DadosMock } from './dados-mock';
-
-describe('DadosMock', () => {
-  let service: DadosMock;
+describe('DadosMockService', () => {
+  let service: DadosMockService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DadosMock);
+    service = TestBed.inject(DadosMockService);
   });
 
   it('should be created', () => {
